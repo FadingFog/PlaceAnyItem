@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PlacedItem extends Block {
 
@@ -28,6 +32,18 @@ public class PlacedItem extends Block {
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon("glass");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer) {
+        return true;
     }
 
     @Override

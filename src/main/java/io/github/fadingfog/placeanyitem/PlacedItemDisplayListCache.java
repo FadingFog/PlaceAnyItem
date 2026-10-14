@@ -7,6 +7,7 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.ITickable;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -44,6 +45,10 @@ public class PlacedItemDisplayListCache {
 
     private CacheEntry compile(TilePlacedItem tile, ItemStack stack, int meta, Runnable renderBody) {
         int listId = GL11.glGenLists(1);
+        // Bind the item's atlas for real: RenderItem saves the filter of the texture bound in GL, not in the list
+        TextureManager textures = Minecraft.getMinecraft()
+            .getTextureManager();
+        textures.bindTexture(textures.getResourceLocation(stack.getItemSpriteNumber()));
         GL11.glNewList(listId, GL11.GL_COMPILE);
         try {
             renderBody.run();
