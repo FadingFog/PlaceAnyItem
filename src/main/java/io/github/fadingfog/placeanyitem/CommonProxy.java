@@ -1,5 +1,6 @@
 package io.github.fadingfog.placeanyitem;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -18,6 +19,9 @@ public class CommonProxy {
 
         PlaceAnyItem.network = NetworkRegistry.INSTANCE.newSimpleChannel(PlaceAnyItem.MODID);
         PlaceAnyItem.network.registerMessage(PlacedItemPacket.Handler.class, PlacedItemPacket.class, 0, Side.SERVER);
+        FMLCommonHandler.instance()
+            .bus()
+            .register(new PlacedItemPacket.Handler());
     }
 
     public void init(FMLInitializationEvent event) {}
